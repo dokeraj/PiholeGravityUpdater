@@ -14,7 +14,10 @@ def checkPiholeValidity(container):
 def checkPiholeAvailability(dockerClient, config):
     try:
         container = dockerClient.containers.get(config.piholeContainerName)
-        return True, container
+        if str(container.status).lower() == "running":
+            return True, container
+        else:
+            return False, None
     except Exception as e:
         return False, None
 
